@@ -1,5 +1,5 @@
-import { TodosAccess } from './todosAcess'
-import * as attachmentUtils from './attachmentUtils'
+import { TodosAccess } from '../dataLogic/todosAcess'
+import * as attachmentUtils from '../fileLogic/attachmentUtils'
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'

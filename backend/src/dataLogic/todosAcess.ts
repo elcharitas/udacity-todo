@@ -10,7 +10,9 @@ const XAWS = AWSXRay.captureAWS(AWS)
 const logger = createLogger('TodosAccess')
 
 export class TodosAccess {
-  private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient()
+  private readonly docClient: DocumentClient = new ((XAWS.DynamoDB as unknown) as {
+    DocumentClient: typeof AWS.DynamoDB.DocumentClient
+  }).DocumentClient()
   private readonly table = process.env.TODOS_TABLE
   private createdAtIndex = process.env.TODOS_CREATED_AT_INDEX
 
