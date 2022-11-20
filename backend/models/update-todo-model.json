@@ -4,7 +4,9 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_]+$",
+      "minLength": 3
     },
     "dueDate": {
       "type": "string"
@@ -13,10 +15,6 @@
       "type": "boolean"
     }
   },
-  "required": [
-    "name",
-    "dueDate",
-    "done"
-  ],
+  "required": ["name", "dueDate", "done"],
   "additionalProperties": false
 }
