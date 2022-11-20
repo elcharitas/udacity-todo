@@ -8,6 +8,6 @@ export const getUploadURL = (todoId: string) => {
   return AwsClient.getSignedUrl('putObject', {
     Bucket: process.env.ATTACHMENT_S3_BUCKET,
     Key: todoId,
-    Expires: process.env.SIGNED_URL_EXPIRATION
+    Expires: Number(process.env.SIGNED_URL_EXPIRATION)
   })
 }
