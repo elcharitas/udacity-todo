@@ -86,6 +86,7 @@ functions:
       - http:
           method: patch
           path: todos/{todoId}
+          cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -98,6 +99,7 @@ functions:
       - http:
           method: delete
           path: todos/{todoId}
+          cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
