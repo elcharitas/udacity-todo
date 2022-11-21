@@ -81,6 +81,10 @@ functions:
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
+    reqValidatorName: ParameterRequestValidator
+    request:
+      schemas:
+        application/json: ${file(models/create-todo-model.json)}
     events:
       - http:
           method: post
@@ -95,7 +99,6 @@ functions:
             description: Create a new todo item
             requestModels:
               'application/json': CreateTodoRequest
-          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -104,17 +107,23 @@ functions:
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
+    reqValidatorName: ParameterRequestValidator
+    request:
+      schemas:
+        application/json: ${file(models/update-todo-model.json)}
     events:
       - http:
           method: patch
           path: todos/{todoId}
           cors: true
+          request:
+            schemas:
+              application/json: ${file(models/update-todo-model.json)}
           documentation:
             summary: update a todo item
             description: update a todo item
             requestModels:
               'application/json': UpdateTodoRequest
-          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -157,10 +166,10 @@ functions:
 resources:
   Resources:
     # request validation
-    onlyBody:
+    ParameterRequestValidator:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
-        Name: 'only-body'
+        Name: ParameterRequestValidator
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true # true or false

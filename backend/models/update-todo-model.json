@@ -1,11 +1,12 @@
 {
+  "definitions": {},
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "group",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "pattern": "^[a-zA-Z0-9_]+$",
+      "pattern": "^.{1,50}$",
       "minLength": 3
     },
     "dueDate": {
