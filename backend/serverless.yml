@@ -95,7 +95,7 @@ functions:
             description: Create a new todo item
             requestModels:
               'application/json': CreateTodoRequest
-          reqValidatorName: RequestBodyValidator
+          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -114,7 +114,7 @@ functions:
             description: update a todo item
             requestModels:
               'application/json': UpdateTodoRequest
-          reqValidatorName: RequestBodyValidator
+          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -157,7 +157,7 @@ functions:
 resources:
   Resources:
     # request validation
-    RequestBodyValidator:
+    onlyBody:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
         Name: 'only-body'
