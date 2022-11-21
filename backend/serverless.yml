@@ -5,6 +5,7 @@ service: serverless-todo-app
 plugins:
   - serverless-webpack
   - serverless-iam-roles-per-function
+  - serverless-aws-documentation
   - serverless-plugin-tracing
   - serverless-reqvalidator-plugin
 
@@ -41,6 +42,21 @@ provider:
             - xray:PutTraceSegments
           Resource: '*'
 
+custom:
+  documentation:
+  api:
+    info:
+      version: v1.0.0
+      title: Serverless To-Do Application API
+      description: Serverless To-Do Application
+  models:
+    - name: CreateTodoRequest
+      contentType: application/json
+      schema: ${file(models/create-todo-model.json)}
+    - name: UpdateTodoRequest
+      contentType: application/json
+      schema: ${file(models/update-todo-model.json)}
+
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
@@ -74,6 +90,12 @@ functions:
           request:
             schemas:
               application/json: ${file(models/create-todo-model.json)}
+          documentation:
+            summary: Create a new todo item
+            description: Create a new todo item
+            requestModels:
+              'application/json': CreateTodoRequest
+          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -87,6 +109,12 @@ functions:
           method: patch
           path: todos/{todoId}
           cors: true
+          documentation:
+            summary: update a todo item
+            description: update a todo item
+            requestModels:
+              'application/json': UpdateTodoRequest
+          reqValidatorName: onlyBody
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -128,6 +156,15 @@ functions:
 
 resources:
   Resources:
+    # request validation
+    onlyBody:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'only-body'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true # true or false
+        ValidateRequestParameters: false # true or false
     # Add necessary AWS resources. You will need at least the following AWS resources
     # Feel free to change the names as you like.
     GatewayResponseDefault4XX:
