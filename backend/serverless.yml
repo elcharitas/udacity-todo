@@ -95,7 +95,7 @@ functions:
             description: Create a new todo item
             requestModels:
               'application/json': CreateTodoRequest
-          reqValidatorName: onlyBody
+          reqValidatorName: RequestBodyValidator
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -114,7 +114,7 @@ functions:
             description: update a todo item
             requestModels:
               'application/json': UpdateTodoRequest
-          reqValidatorName: onlyBody
+          reqValidatorName: RequestBodyValidator
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -157,14 +157,14 @@ functions:
 resources:
   Resources:
     # request validation
-    onlyBody:
+    RequestBodyValidator:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
         Name: 'only-body'
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true # true or false
-        ValidateRequestParameters: false # true or false
+        ValidateRequestParameters: true # true or false
     # Add necessary AWS resources. You will need at least the following AWS resources
     # Feel free to change the names as you like.
     GatewayResponseDefault4XX:
